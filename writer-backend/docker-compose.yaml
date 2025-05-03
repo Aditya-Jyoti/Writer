@@ -6,8 +6,7 @@ services:
     container_name: app
     ports:
       - "${PORT:-3000}:3000"
-    environment:
-      - MONGO_URI=mongodb://${USERNAME}:${PASSWORD}@database:27017
+    env_file: .env
 
   database:
     image: mongodb/mongodb-community-server:latest
