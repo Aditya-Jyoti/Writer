@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 
-	"github.com/aditya-jyoti/writer/lib"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+
+	"github.com/aditya-jyoti/writer/routes"
 )
 
 func main() {
@@ -15,17 +19,21 @@ func main() {
 		log.Fatalf("Error loading .env file")
 	}
 
-	uri_string := os.Getenv("MONGO_URI")
-	port := "3000"
-	db_name := "writer"
+	client, err := mongo.Connect(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
+	var blogCollection *mongo.Collection = client.Database("writer").Collection("blogs")
 
 	router := gin.Default()
-
-	lib.ConnectDB(uri_string)
-	defer lib.DisconnectDB()
-
-	db := lib.GetDB().Database(db_name)
-	log.Println("Ready to use DB:", db.Name())
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -33,5 +41,8 @@ func main() {
 		})
 	})
 
+	routes.RegisterBlogRoutes(router, blogCollection)
+
+	port := "3000"
 	router.Run(":" + port)
 }
