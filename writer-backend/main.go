@@ -5,14 +5,23 @@ import (
 	"log"
 	"os"
 
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	_ "github.com/aditya-jyoti/writer/docs"
 	"github.com/aditya-jyoti/writer/routes"
 )
 
+// @title Writer API
+// @version 1.0
+// @description Simple CRUD API for a blog.
+// @host localhost:3000
+// @BasePath /
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -34,6 +43,7 @@ func main() {
 	var blogCollection *mongo.Collection = client.Database("writer").Collection("blogs")
 
 	router := gin.Default()
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

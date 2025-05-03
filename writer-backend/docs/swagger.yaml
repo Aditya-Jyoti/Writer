@@ -1,0 +1,113 @@
+basePath: /
+definitions:
+  models.Blog:
+    description: Represents a blog with title, description, content, and optional
+      publish date.
+    properties:
+      content:
+        example: Go makes it easy to work with concurrency by using goroutines and
+          channels...
+        type: string
+      description:
+        example: This post explains how goroutines and channels work in Go.
+        type: string
+      id:
+        example: b1d5fca3-4b5b-46f3-9d13-cf6e2d2d4e12
+        type: string
+      publish_date:
+        description: PublishDate is the optional timestamp when the blog was or will
+          be published
+        example: "2025-05-05T09:00:00Z"
+        type: string
+      published:
+        description: '@default false'
+        example: false
+        type: boolean
+      title:
+        example: Understanding Go Concurrency
+        type: string
+      update_date:
+        description: '@default time.Now()'
+        example: "2025-05-04T12:30:00Z"
+        type: string
+    type: object
+  models.CreateBlogInput:
+    description: Input structure for creating a blog post.
+    properties:
+      content:
+        example: Go makes it easy to work with concurrency by using goroutines and
+          channels...
+        type: string
+      description:
+        example: This post explains how goroutines and channels work in Go.
+        type: string
+      title:
+        example: Understanding Go Concurrency
+        type: string
+    type: object
+  models.SuccessfulCreationResponse:
+    description: Represents a successful response when a new blog is created
+    properties:
+      code:
+        type: integer
+      id:
+        example: b1d5fca3-4b5b-46f3-9d13-cf6e2d2d4e12
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Simple CRUD API for a blog.
+  title: Writer API
+  version: "1.0"
+paths:
+  /blogs/:
+    get:
+      description: Retrieves all blog entries from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of all blog posts
+          schema:
+            items:
+              $ref: '#/definitions/models.Blog'
+            type: array
+        "500":
+          description: Failed to retrieve or decode blogs
+          schema:
+            type: string
+      summary: Get all blog posts
+      tags:
+      - Blogs
+    post:
+      consumes:
+      - application/json
+      description: Creates a blog with title, description, and content. Automatically
+        sets `published` to false and `update_date` to current time.
+      parameters:
+      - description: Blog input
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateBlogInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Returns created blog ID
+          schema:
+            $ref: '#/definitions/models.SuccessfulCreationResponse'
+        "400":
+          description: Invalid JSON or missing fields
+          schema:
+            type: string
+        "500":
+          description: Failed to insert blog
+          schema:
+            type: string
+      summary: Create a new blog post
+      tags:
+      - Blogs
+swagger: "2.0"
