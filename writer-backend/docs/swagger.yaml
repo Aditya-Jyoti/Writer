@@ -32,6 +32,7 @@ definitions:
         type: string
     type: object
   models.CreateBlogInput:
+    description: Input structure for creating a blog post.
     properties:
       content:
         example: Go makes it easy to work with concurrency by using goroutines and
@@ -45,11 +46,29 @@ definitions:
         type: string
     type: object
   models.SuccessfulCreationResponse:
+    description: Represents a successful response when a new blog is created
     properties:
       code:
         type: integer
       id:
         example: b1d5fca3-4b5b-46f3-9d13-cf6e2d2d4e12
+        type: string
+    type: object
+  models.UpdateBlogInput:
+    description: Input structure for updating a blog post.
+    properties:
+      content:
+        example: Go makes it easy to work with concurrency by using goroutines and
+          channels...
+        type: string
+      description:
+        example: This post explains how goroutines and channels work in Go.
+        type: string
+      published:
+        example: false
+        type: boolean
+      title:
+        example: Understanding Go Concurrency
         type: string
     type: object
 host: localhost:3000
@@ -112,6 +131,86 @@ paths:
           schema:
             type: object
       summary: Create a new blog post
+      tags:
+      - Blogs
+  /blogs/{id}:
+    delete:
+      description: Deletes a blog post by its ID
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Message: Blog deleted successfully'
+          schema:
+            type: object
+        "500":
+          description: 'Error: Failed to delete blog'
+          schema:
+            type: object
+      summary: Delete a blog post
+      tags:
+      - Blogs
+    get:
+      description: Retrieves a blog entry by its ID
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Blog post
+          schema:
+            $ref: '#/definitions/models.Blog'
+        "404":
+          description: 'Error: Blog not found'
+          schema:
+            type: object
+      summary: Get a blog post by ID
+      tags:
+      - Blogs
+    put:
+      consumes:
+      - application/json
+      description: Updates the title, description, content, and published status of
+        a blog post by its ID
+      parameters:
+      - description: Blog ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated blog fields
+        in: body
+        name: blog
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateBlogInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Message: Blog updated successfully'
+          schema:
+            type: object
+        "400":
+          description: 'Error: Invalid input'
+          schema:
+            type: object
+        "500":
+          description: 'Error: Failed to update blog'
+          schema:
+            type: object
+      summary: Update a blog post
       tags:
       - Blogs
 swagger: "2.0"

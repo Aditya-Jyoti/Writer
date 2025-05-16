@@ -95,6 +95,125 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/blogs/{id}": {
+            "get": {
+                "description": "Retrieves a blog entry by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Get a blog post by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Blog ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Blog post",
+                        "schema": {
+                            "$ref": "#/definitions/models.Blog"
+                        }
+                    },
+                    "404": {
+                        "description": "Error: Blog not found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates the title, description, content, and published status of a blog post by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Update a blog post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Blog ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated blog fields",
+                        "name": "blog",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateBlogInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message: Blog updated successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Invalid input",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Error: Failed to update blog",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a blog post by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Delete a blog post",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Blog ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message: Blog deleted successfully",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Error: Failed to delete blog",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -136,6 +255,7 @@ const docTemplate = `{
             }
         },
         "models.CreateBlogInput": {
+            "description": "Input structure for creating a blog post.",
             "type": "object",
             "properties": {
                 "content": {
@@ -153,6 +273,7 @@ const docTemplate = `{
             }
         },
         "models.SuccessfulCreationResponse": {
+            "description": "Represents a successful response when a new blog is created",
             "type": "object",
             "properties": {
                 "code": {
@@ -161,6 +282,28 @@ const docTemplate = `{
                 "id": {
                     "type": "string",
                     "example": "b1d5fca3-4b5b-46f3-9d13-cf6e2d2d4e12"
+                }
+            }
+        },
+        "models.UpdateBlogInput": {
+            "description": "Input structure for updating a blog post.",
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "example": "Go makes it easy to work with concurrency by using goroutines and channels..."
+                },
+                "description": {
+                    "type": "string",
+                    "example": "This post explains how goroutines and channels work in Go."
+                },
+                "published": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Understanding Go Concurrency"
                 }
             }
         }
