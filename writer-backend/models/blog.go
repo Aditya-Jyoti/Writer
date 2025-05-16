@@ -28,6 +28,14 @@ type CreateBlogInput struct {
 	Content     string `json:"content" example:"Go makes it easy to work with concurrency by using goroutines and channels..."`
 }
 
+// @Description Input structure for updating a blog post.
+type UpdateBlogInput struct {
+	Title       string `json:"title" example:"Understanding Go Concurrency"`
+	Description string `json:"description" example:"This post explains how goroutines and channels work in Go."`
+	Content     string `json:"content" example:"Go makes it easy to work with concurrency by using goroutines and channels..."`
+	Published   bool   `json:"published" example:"false"`
+}
+
 func NewBlog(title, description, content string) *Blog {
 	return &Blog{
 		Title:       title,

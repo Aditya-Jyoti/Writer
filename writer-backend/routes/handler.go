@@ -65,3 +65,83 @@ func (h *BlogHandler) GetAllBlogs(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, blogs)
 }
+
+// GetBlogById godoc
+// @Summary Get a blog post by ID
+// @Description Retrieves a blog entry by its ID
+// @Tags Blogs
+// @Produce json
+// @Param id path string true "Blog ID"
+// @Success 200 {object} models.Blog "Blog post"
+// @Failure 404 {object} object "Error: Blog not found"
+// @Router /blogs/{id} [get]
+func (h *BlogHandler) GetBlogById(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	var blog models.Blog
+
+	if err := h.Collection.FindOne(context.Background(), bson.M{"_id": id}).Decode(&blog); err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Blog not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, blog)
+}
+
+// UpdateBlog godoc
+// @Summary Update a blog post
+// @Description Updates the title, description, content, and published status of a blog post by its ID
+// @Tags Blogs
+// @Accept json
+// @Produce json
+// @Param id path string true "Blog ID"
+// @Param blog body models.UpdateBlogInput true "Updated blog fields"
+// @Success 200 {object} object "Message: Blog updated successfully"
+// @Failure 400 {object} object "Error: Invalid input"
+// @Failure 500 {object} object "Error: Failed to update blog"
+// @Router /blogs/{id} [put]
+func (h *BlogHandler) UpdateBlog(ctx *gin.Context) {
+	id := ctx.Param("id")
+	var input models.UpdateBlogInput
+
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"title":       input.Title,
+			"description": input.Description,
+			"content":     input.Content,
+			"published":   input.Published,
+		},
+	}
+
+	if _, err := h.Collection.UpdateOne(context.Background(), bson.M{"_id": id}, update); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update blog"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Blog updated successfully"})
+}
+
+// DeleteBlog godoc
+// @Summary Delete a blog post
+// @Description Deletes a blog post by its ID
+// @Tags Blogs
+// @Produce json
+// @Param id path string true "Blog ID"
+// @Success 200 {object} object "Message: Blog deleted successfully"
+// @Failure 500 {object} object "Error: Failed to delete blog"
+// @Router /blogs/{id} [delete]
+func (h *BlogHandler) DeleteBlog(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	if _, err := h.Collection.DeleteOne(context.Background(), bson.M{"_id": id}); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete blog"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Blog deleted successfully"})
+}

@@ -14,5 +14,8 @@ func (h *BlogHandler) RegisterBlogRoutes(r *gin.Engine) {
 	{
 		blogs.POST("/", h.CreateBlog)
 		blogs.GET("/", h.GetAllBlogs)
+		blogs.GET("/:id", h.GetBlogById)
+		blogs.PUT("/:id", h.UpdateBlog)
+		blogs.DELETE("/:id", h.DeleteBlog)
 	}
 }
