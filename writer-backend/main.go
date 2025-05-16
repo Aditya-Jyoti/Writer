@@ -5,21 +5,29 @@ import (
 	"log"
 	"os"
 
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	_ "github.com/aditya-jyoti/writer/docs"
 	"github.com/aditya-jyoti/writer/routes"
+	_ "github.com/aditya-jyoti/writer/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title Writer API
 // @version 1.0
 // @description Simple CRUD API for a blog.
+
+// @contact.name Aditya Jyoti
+// @contact.url https://github.com/aditya-jyoti
+// @contact.email reach@adityajyoti.com
+
+// @license.name MIT
+// @license.url https://opensource.org/licenses/MIT
+
 // @host localhost:3000
 // @BasePath /
 func main() {
@@ -51,8 +59,10 @@ func main() {
 		})
 	})
 
-	routes.RegisterBlogRoutes(router, blogCollection)
+	blogHandler := &routes.BlogHandler{Collection: blogCollection}
+	blogHandler.RegisterBlogRoutes(router)
 
 	port := "3000"
 	router.Run(":" + port)
 }
+

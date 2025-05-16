@@ -9,7 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Aditya Jyoti",
+            "url": "https://github.com/aditya-jyoti",
+            "email": "reach@adityajyoti.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -36,15 +44,15 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failed to retrieve or decode blogs",
+                        "description": "Error: Failed to retrieve or decode blogs",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     }
                 }
             },
             "post": {
-                "description": "Creates a blog with title, description, and content. Automatically sets ` + "`" + `published` + "`" + ` to false and ` + "`" + `update_date` + "`" + ` to current time.",
+                "description": "Creates a blog with title, description, and content. Default ` + "`" + `published` + "`" + ` to false and ` + "`" + `update_date` + "`" + ` to current time.",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,15 +82,15 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid JSON or missing fields",
+                        "description": "Error: Invalid input",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     },
                     "500": {
-                        "description": "Failed to insert blog",
+                        "description": "Error: Failed to insert blog",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     }
                 }
@@ -128,7 +136,6 @@ const docTemplate = `{
             }
         },
         "models.CreateBlogInput": {
-            "description": "Input structure for creating a blog post.",
             "type": "object",
             "properties": {
                 "content": {
@@ -146,7 +153,6 @@ const docTemplate = `{
             }
         },
         "models.SuccessfulCreationResponse": {
-            "description": "Represents a successful response when a new blog is created",
             "type": "object",
             "properties": {
                 "code": {
