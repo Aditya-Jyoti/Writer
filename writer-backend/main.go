@@ -10,8 +10,8 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/aditya-jyoti/writer/routes"
 	_ "github.com/aditya-jyoti/writer/docs"
+	"github.com/aditya-jyoti/writer/routes"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -27,6 +27,11 @@ import (
 
 // @license.name MIT
 // @license.url https://opensource.org/licenses/MIT
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Provide your JWT token like: "Bearer {token}"
 
 // @host localhost:3000
 // @BasePath /
@@ -65,4 +70,3 @@ func main() {
 	port := "3000"
 	router.Run(":" + port)
 }
-

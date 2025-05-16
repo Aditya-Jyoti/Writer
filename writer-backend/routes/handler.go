@@ -20,6 +20,7 @@ import (
 // @Success 201 {object} models.SuccessfulCreationResponse "Returns created blog ID"
 // @Failure 400 {object} object "Error: Invalid input"
 // @Failure 500 {object} object "Error: Failed to insert blog"
+// @Security BearerAuth
 // @Router /blogs/ [post]
 func (h *BlogHandler) CreateBlog(ctx *gin.Context) {
 	var input models.CreateBlogInput
@@ -74,6 +75,7 @@ func (h *BlogHandler) GetAllBlogs(ctx *gin.Context) {
 // @Param id path string true "Blog ID"
 // @Success 200 {object} models.Blog "Blog post"
 // @Failure 404 {object} object "Error: Blog not found"
+// @Security BearerAuth
 // @Router /blogs/{id} [get]
 func (h *BlogHandler) GetBlogById(ctx *gin.Context) {
 	id := ctx.Param("id")
@@ -99,6 +101,7 @@ func (h *BlogHandler) GetBlogById(ctx *gin.Context) {
 // @Success 200 {object} object "Message: Blog updated successfully"
 // @Failure 400 {object} object "Error: Invalid input"
 // @Failure 500 {object} object "Error: Failed to update blog"
+// @Security BearerAuth
 // @Router /blogs/{id} [put]
 func (h *BlogHandler) UpdateBlog(ctx *gin.Context) {
 	id := ctx.Param("id")
@@ -134,6 +137,7 @@ func (h *BlogHandler) UpdateBlog(ctx *gin.Context) {
 // @Param id path string true "Blog ID"
 // @Success 200 {object} object "Message: Blog deleted successfully"
 // @Failure 500 {object} object "Error: Failed to delete blog"
+// @Security BearerAuth
 // @Router /blogs/{id} [delete]
 func (h *BlogHandler) DeleteBlog(ctx *gin.Context) {
 	id := ctx.Param("id")

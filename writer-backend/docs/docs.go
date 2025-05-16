@@ -52,6 +52,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Creates a blog with title, description, and content. Default ` + "`" + `published` + "`" + ` to false and ` + "`" + `update_date` + "`" + ` to current time.",
                 "consumes": [
                     "application/json"
@@ -98,6 +103,11 @@ const docTemplate = `{
         },
         "/blogs/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieves a blog entry by its ID",
                 "produces": [
                     "application/json"
@@ -131,6 +141,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Updates the title, description, content, and published status of a blog post by its ID",
                 "consumes": [
                     "application/json"
@@ -182,6 +197,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Deletes a blog post by its ID",
                 "produces": [
                     "application/json"
@@ -306,6 +326,14 @@ const docTemplate = `{
                     "example": "Understanding Go Concurrency"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Provide your JWT token like: \"Bearer {token}\"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
