@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Running Docker build to catch errors..."
+
+docker build -f writer-backend/Dockerfile -t writer-backend:local-test ./writer-backend
+BUILD_RESULT=$?
+
+if [ $BUILD_RESULT -ne 0 ]; then
+  echo "Docker build failed. Commit aborted."
+  exit 1
+fi
+
+echo "Docker build succeeded."
+exit 0
