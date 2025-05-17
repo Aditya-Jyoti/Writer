@@ -1,0 +1,20 @@
+name: Deploy After Backend Build
+
+on:
+  workflow_run:
+    workflows:
+      ["Build and Conditionally Push Writer Backend Docker Image to Docker Hub"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy app (e.g., trigger deploy or docker-compose up)
+        run: echo "mock deployment"

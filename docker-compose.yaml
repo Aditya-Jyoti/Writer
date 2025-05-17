@@ -1,0 +1,25 @@
+services:
+  writer-backend:
+    image: adityajyoti/writer-backend:latest
+    container_name: backend
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - PORT=${PORT:-3000}
+      - MONGODB_URI=${MONGO_URI:-mongodb://admin:admin@database:27017/writer?authSource=admin}
+      - MONGODB_USER=${USERNAME}
+      - MONGODB_PASSWORD=${PASSWORD}
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  database:
+    image: mongodb/mongodb-community-server:latest
+    container_name: database
+    volumes:
+      - ${VOLUME:-./mongo-data}/data:/data/db
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${USERNAME}
+      - MONGODB_INITDB_ROOT_PASSWORD=${PASSWORD}
+    user: "1000:1000"
+    restart: unless-stopped
