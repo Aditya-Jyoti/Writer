@@ -28,15 +28,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-writer-backend-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-writer-backend-
-
-      - name: Build image and push as preview
+      - name: Build image and push as preview with cache
         uses: docker/build-push-action@v3
         with:
           context: writer-backend
@@ -44,8 +36,8 @@ jobs:
           tags: ${{ vars.DOCKERHUB_USERNAME }}/writer-backend:build-preview
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/writer-backend:build-cache
+          cache-to: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/writer-backend:build-cache,mode=max
 
   approve-and-retag:
     needs: build
