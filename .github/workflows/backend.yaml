@@ -34,8 +34,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./writer-backend
-          file: ./writer-backend/Dockerfile
+          context: writer-backend
+          file: writer-backend/Dockerfile
           tags: ${{ vars.DOCKERHUB_USERNAME }}/writer-backend:latest
           platforms: linux/amd64,linux/arm64
           push: false
