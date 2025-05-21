@@ -7,8 +7,8 @@
 	class="bg-background text-foreground font-handwriting mx-auto flex min-h-screen flex-col p-4 lg:w-[60%] lg:p-0"
 >
 	<Header />
-
 	<section class="flex flex-grow flex-col gap-4">
+		<!-- root -->
 		<section
 			id="root"
 			class="mx-auto flex flex-col items-center justify-between lg:w-[90%] lg:flex-row lg:py-12"
@@ -66,6 +66,30 @@
 			</div>
 			<div class="hidden w-full scale-125 justify-center lg:flex">
 				<img src="/me-sketch.png" alt="me" class="h-64 p-2" />
+			</div>
+		</section>
+
+		<!-- blog section -->
+		<section class="flex flex-col gap-4">
+			<!-- heading -->
+			<div class="flex w-full flex-col items-start">
+				<span class="text-2xl font-bold lg:text-4xl">Blogs</span>
+				<div class="bg-foreground h-1 w-12 rounded-full lg:w-14"></div>
+			</div>
+
+			<!-- search section -->
+			<div class="relative w-full">
+				<input
+					type="text"
+					placeholder="Search"
+					disabled
+					class="handdrawn-1 border-foreground text-foreground placeholder:text-foreground/50 focus:border-foreground absolute left-1 top-1 z-0 w-full rounded-lg border-2 bg-black p-2 text-sm font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-0"
+				/>
+				<input
+					type="text"
+					placeholder="Search"
+					class="handdrawn-3 hover:translate-0.5 border-foreground bg-background text-foreground placeholder:text-foreground/50 focus:border-foreground absolute left-0 top-0 z-10 w-full rounded-lg border-2 p-2 text-sm font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-0"
+				/>
 			</div>
 		</section>
 	</section>
