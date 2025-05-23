@@ -1,14 +1,27 @@
 #!/bin/sh
 
-echo "Running Docker build to catch errors..."
+echo "Running Docker build to catch errors for backend..."
 
 docker build -f writer-backend/Dockerfile -t writer-backend:local-test ./writer-backend
-BUILD_RESULT=$?
+BUILD_BACKEND_RESULT=$?
 
-if [ $BUILD_RESULT -ne 0 ]; then
-  echo "Docker build failed. Commit aborted."
+if [ $BUILD_BACKEND_RESULT -ne 0 ]; then
+  echo "Backend Docker build failed. Commit aborted."
   exit 1
 fi
 
-echo "Docker build succeeded."
+echo "Backend Docker build succeeded."
+
+echo "Running Docker build to catch errors for frontend..."
+
+docker build -f writer-frontend/Dockerfile -t writer-frontend:local-test ./writer-frontend
+BUILD_FRONTEND_RESULT=$?
+
+if [ $BUILD_FRONTEND_RESULT -ne 0 ]; then
+  echo "Frontend Docker build failed. Commit aborted."
+  exit 1
+fi
+
+echo "Frontend Docker build succeeded."
+
 exit 0

@@ -1,0 +1,42 @@
+name: Build and Conditionally Push Writer Frontend Docker Image to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "writer-frontend/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    outputs:
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image and push as preview with cache
+        uses: docker/build-push-action@v3
+        with:
+          context: writer-frontend
+          file: writer-frontend/Dockerfile
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/writer-frontend:latest
+          platforms: linux/amd64,linux/arm64
+          push: true
+          cache-from: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/writer-frontend:build-cache
+          cache-to: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/writer-frontend:build-cache,mode=max
