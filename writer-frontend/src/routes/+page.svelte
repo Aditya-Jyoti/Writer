@@ -1,6 +1,17 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
+
+	import { allBlogs } from '$lib/stores';
+	import type { Blog } from '../app.d.ts';
+
+	// export let data: { blogs: Blog[] };
+
+	// onMount(() => {
+	// 	allBlogs.set(data.blogs);
+	// });
 </script>
 
 <main
