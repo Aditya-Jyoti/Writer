@@ -24,4 +24,8 @@ fi
 
 echo "Frontend Docker build succeeded."
 
+echo "Cleaning up local test images..."
+docker rmi writer-backend:local-test writer-frontend:local-test
+
+echo "Cleanup done."
 exit 0
