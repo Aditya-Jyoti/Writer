@@ -4,6 +4,6 @@
 	let { children } = $props();
 </script>
 
-<main class="bg-background " >
+<main class="bg-background" >
 	{@render children()}
 </main>

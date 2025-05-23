@@ -7,6 +7,8 @@ services:
     environment:
       - JWT_SECRET=${JWT_SECRET:-secret}
       - PUBLIC_API_BASE=${PUBLIC_API_BASE:-http://writer-backend:3000}
+      - LOGIN_USERNAME=${LOGIN_USERNAME:-admin}
+      - LOGIN_PASSWORD=${LOGIN_PASSWORD:-admin}
     depends_on:
       - writer-backend
     restart: unless-stopped
