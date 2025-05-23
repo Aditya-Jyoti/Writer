@@ -20,6 +20,6 @@ COPY --from=builder /app/writer .
 
 RUN chmod +x writer
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["./writer"]

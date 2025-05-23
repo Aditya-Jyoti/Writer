@@ -27,7 +27,7 @@ services:
     volumes:
       - ${VOLUME:-./mongo-data}/data:/data/db
     environment:
-      - MONGODB_INITDB_ROOT_USERNAME=${MONG0_USERNAME:-admin}
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-admin}
       - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-admin}
     user: "1000:1000"
     restart: unless-stopped

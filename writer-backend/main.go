@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
@@ -36,12 +34,7 @@ import (
 // @host localhost:3000
 // @BasePath /
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	client, err := mongo.Connect(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+	client, err := mongo.Connect(options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
 
 	if err != nil {
 		panic(err)
