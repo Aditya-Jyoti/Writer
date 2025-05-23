@@ -7,11 +7,12 @@
 	import { allBlogs } from '$lib/stores';
 	import type { Blog } from '../app.d.ts';
 
-	// export let data: { blogs: Blog[] };
+	export let data: { blogs: Blog[] };
 
-	// onMount(() => {
-	// 	allBlogs.set(data.blogs);
-	// });
+	onMount(() => {
+		allBlogs.set(data.blogs);
+		console.log(data.blogs);
+	});
 </script>
 
 <main
