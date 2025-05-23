@@ -1,4 +1,5 @@
 import type { PageLoad } from './$types';
+import { env } from '$env/dynamic/public';
 
 /**
  * Fetches all blog posts from the backend API.
@@ -10,7 +11,7 @@ import type { PageLoad } from './$types';
  * @throws Will throw an error if the fetch request fails or returns a non-OK status.
  */
 export const load: PageLoad = async ({ fetch }) => {
-	const res = await fetch(`${import.meta.env.PUBLIC_API_BASE}/blogs`);
+	const res = await fetch(`${env.PUBLIC_API_BASE}/blogs`);
 	if (!res.ok) {
 		throw new Error('Failed to fetch blogs');
 	}

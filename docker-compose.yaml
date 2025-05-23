@@ -16,7 +16,7 @@ services:
     container_name: backend
     environment:
       - JWT_SECRET=${JWT_SECRET:-secret}
-      - MONGODB_URI=${MONGO_URI:-mongodb://admin:admin@database:27017/writer?authSource=admin}
+      - MONGODB_URI=${MONGODB_URI:-mongodb://admin:admin@database:27017/writer?authSource=admin}
     depends_on:
       - database
     restart: unless-stopped
